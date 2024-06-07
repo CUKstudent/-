@@ -34,23 +34,23 @@ class LevenshteinChatBot:
         self.questions, self.answers = self.load_data(filepath)
 
     def load_data(self, filepath):
-        data = pd.read_csv(filepath)
-        questions = data['Q'].tolist()
-        answers = data['A'].tolist()
+        data = pd.read_csv(filepath) # CSV파일 읽어오기(DataFram 형태)
+        questions = data['Q'].tolist() # 질문들을 리스트로 변환
+        answers = data['A'].tolist() # 응답들을 리스트로 변환
         return questions, answers
 
     def find_best_answer(self, input_sentence):
-        distances = [calc_distance(input_sentence, question) for question in self.questions]
-        best_match_index = distances.index(min(distances))
-        return self.answers[best_match_index]
+        distances = [calc_distance(input_sentence, question) for question in self.questions] # 학습데이터와 chat의 질문의 유사도를 계산해 distances리스트에 저장
+        best_match_index = distances.index(min(distances)) # 가장 작은 유사도의 인덱스 추출
+        return self.answers[best_match_index] # 인덱스에 해당하는 응답 반환
 
-# 데이터 파일의 경로를 지정합니다.
+# 데이터 파일의 경로를 지정
 filepath = 'ChatbotData.csv'
 
-# 챗봇 객체를 생성합니다.
+# 챗봇 객체를 생성
 chatbot = LevenshteinChatBot(filepath)
 
-# '종료'라는 입력이 나올 때까지 사용자의 입력에 따라 챗봇의 응답을 출력하는 무한 루프를 실행합니다.
+# '종료'라는 입력이 나올 때까지 사용자의 입력에 따라 챗봇의 응답을 출력하는 무한 루프를 실행
 while True:
     input_sentence = input('You: ')
     if input_sentence.lower() == '종료':
